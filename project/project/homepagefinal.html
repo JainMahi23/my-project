@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Folio — Books, Reads & Stories</title>
+  <link rel="stylesheet" href="uifinal.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">F</span>
+        <span class="logo-text">folio</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#"          class="nav-link active">Home</a>
+        <a href="#products"  class="nav-link">Shop</a>
+        <a href="#books"     class="nav-link">Reads</a>
+        <a href="#social"    class="nav-link">Social</a>
+        <a href="#chat-cta"  class="nav-link">Chat</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" id="searchBtn" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <button class="icon-btn cart-btn" aria-label="Cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <a href="#" class="btn-login">Login</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="search-overlay" id="searchOverlay">
+      <input type="text" class="search-input" placeholder="Search books, authors, genres…" id="searchInput" />
+      <button class="search-close" id="searchClose">✕</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ══════════════════ HERO ══════════════════ -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Your literary world, curated</p>
+        <h1 class="hero-heading">
+          Discover.<br/>Read.<br/><em>Connect.</em>
+        </h1>
+        <p class="hero-sub">Thousands of handpicked books, reading accessories and a community of passionate readers — all in one place.</p>
+        <div class="hero-ctas">
+          <a href="#products" class="btn-primary">Browse Books</a>
+          <a href="#books"    class="btn-ghost">Top Reads →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="stat-num">8K+</span><span class="stat-label">Books</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">24K</span><span class="stat-label">Reviews</span></div>
+          <div class="stat-div"></div>
+          <div class="stat"><span class="stat-num">61K</span><span class="stat-label">Readers</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card-stack">
+          <div class="float-card card-1">
+            <div class="fc-img fc-img--cover">
+              <img src="https://covers.openlibrary.org/b/isbn/9780525559474-M.jpg"
+                   alt="The Midnight Library"
+                   onerror="this.style.display='none';this.parentNode.setAttribute('data-fallback','📚')"/>
+            </div>
+            <div class="fc-info"><strong>The Midnight Library</strong><span>★ 4.8</span></div>
+          </div>
+          <div class="float-card card-2">
+            <div class="fc-img fc-img--cover">
+              <img src="https://covers.openlibrary.org/b/isbn/9780735211292-M.jpg"
+                   alt="Atomic Habits"
+                   onerror="this.style.display='none';this.parentNode.setAttribute('data-fallback','⚡')"/>
+            </div>
+            <div class="fc-info"><strong>Atomic Habits</strong><span>★ 4.9</span></div>
+          </div>
+          <div class="float-card card-3">
+            <div class="fc-img fc-img--cover">
+              <img src="https://covers.openlibrary.org/b/isbn/9780441013593-M.jpg"
+                   alt="Dune"
+                   onerror="this.style.display='none';this.parentNode.setAttribute('data-fallback','🌌')"/>
+            </div>
+            <div class="fc-info"><strong>Dune</strong><span>★ 4.9</span></div>
+          </div>
+          <div class="hero-badge">✦ New Arrivals</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ FEATURED BOOKS & ACCESSORIES ══════════════════ -->
+    <section class="section" id="products">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Browse the Store</p>
+          <h2 class="section-title">Books &amp; Reading Essentials</h2>
+        </div>
+        <a href="store.html" class="link-more">Full catalogue →</a>
+      </div>
+
+      <div class="products-filter" id="productsFilter">
+        <button class="filter-btn active" data-cat="all">All</button>
+        <button class="filter-btn" data-cat="fiction">Fiction</button>
+        <button class="filter-btn" data-cat="nonfiction">Non-Fiction</button>
+        <button class="filter-btn" data-cat="academic">Academic</button>
+        <button class="filter-btn" data-cat="comics">Comics</button>
+        <button class="filter-btn" data-cat="selfhelp">Self-Help</button>
+        <button class="filter-btn" data-cat="extras">Accessories</button>
+      </div>
+
+      <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- ══════════════════ RECOMMENDED READS ══════════════════ -->
+    <section class="section section-alt" id="books">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Curated for You</p>
+          <h2 class="section-title">Recommended Reads</h2>
+        </div>
+        <a href="#" class="link-more">Full library →</a>
+      </div>
+
+      <div class="books-layout">
+        <div class="books-featured" id="bookFeatured"></div>
+        <div class="books-list"     id="booksList"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════ READING SOCIAL FEED ══════════════════ -->
+    <section class="section" id="social">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Reader Community</p>
+          <h2 class="section-title">What Readers Are Saying</h2>
+        </div>
+        <a href="#" class="link-more">Open feed →</a>
+      </div>
+      <div class="social-grid" id="socialGrid"></div>
+    </section>
+
+    <!-- ══════════════════ CHAT CTA ══════════════════ -->
+    <section class="chat-cta-section" id="chat-cta">
+      <div class="chat-cta-inner">
+        <div class="chat-cta-text">
+          <p class="section-eyebrow" style="color:#f5c97a">Live Book Club</p>
+          <h2>Talk Books with Real Readers</h2>
+          <p>Join live reading rooms, debate plot twists, swap recommendations, and meet fellow book lovers from around the world.</p>
+          <a href="#" class="btn-primary btn-gold">Enter Reading Room →</a>
+        </div>
+        <div class="chat-preview" id="chatPreview"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo" style="color:inherit">
+          <span class="logo-mark">F</span>
+          <span class="logo-text">folio</span>
+        </a>
+        <p>Your literary world, curated.</p>
+        <div class="social-icons">
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="Instagram">◎</a>
+          <a href="#" aria-label="Goodreads">G</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#">New Releases</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Deals</a>
+        <a href="#">Gift Cards</a>
+      </div>
+      <div class="footer-col">
+        <h4>Discover</h4>
+        <a href="#">Book Club</a>
+        <a href="#">Reading Feed</a>
+        <a href="#">Chat Rooms</a>
+        <a href="#">Author Events</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Folio Books. All rights reserved.</span>
+      <span>Privacy · Terms · Cookies</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="main.js"></script>
+</body>
+</html>
