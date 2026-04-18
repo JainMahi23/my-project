@@ -100,7 +100,173 @@
         </div>
       </div>
     </section>
+<!-- ══════════════════ TRENDING BOOKS (static) ══════════════════
+     New section — hardcoded, no JS dependency, safe to add.
+     Placed between hero and products section.
+══════════════════════════════════════════════════════════════ -->
+<div class="trending-section-wrap">
+  <section class="trending-section" id="trending">
 
+    <div class="section-header">
+      <div>
+        <p class="section-eyebrow">What's Hot Right Now</p>
+        <h2 class="section-title">Trending Books</h2>
+      </div>
+      <a href="store.html" class="link-more">See all →</a>
+    </div>
+
+    <!-- Wrapper enables horizontal scroll on mobile -->
+    <div class="trending-track-wrapper">
+      <div class="trending-grid">
+
+        <!-- Card 1 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <!-- Rank badge -->
+            <span class="trending-rank">#1</span>
+            <!-- Sale badge -->
+            <span class="product-badge badge-hot">HOT</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780385545969-M.jpg"
+              alt="Tomorrow, and Tomorrow, and Tomorrow"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">📖</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Literary Fiction</p>
+            <p class="product-name">Tomorrow, and Tomorrow, and Tomorrow</p>
+            <p class="product-author">Gabrielle Zevin</p>
+            <div class="product-stars">★★★★★</div>
+            <div class="product-foot">
+              <span class="product-price">$14.99</span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <span class="trending-rank">#2</span>
+            <span class="product-badge badge-new">NEW</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780593230572-M.jpg"
+              alt="Fourth Wing"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">🐉</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Fantasy</p>
+            <p class="product-name">Fourth Wing</p>
+            <p class="product-author">Rebecca Yarros</p>
+            <div class="product-stars">★★★★★</div>
+            <div class="product-foot">
+              <span class="product-price">$16.99</span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <span class="trending-rank">#3</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780525511342-M.jpg"
+              alt="Happy Place"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">🌿</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Romance</p>
+            <p class="product-name">Happy Place</p>
+            <p class="product-author">Emily Henry</p>
+            <div class="product-stars">★★★★☆</div>
+            <div class="product-foot">
+              <span class="product-price">$13.99</span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <span class="trending-rank">#4</span>
+            <span class="product-badge badge-sale">SALE</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780593315200-M.jpg"
+              alt="Demon Copperhead"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">📚</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Literary Fiction</p>
+            <p class="product-name">Demon Copperhead</p>
+            <p class="product-author">Barbara Kingsolver</p>
+            <div class="product-stars">★★★★★</div>
+            <div class="product-foot">
+              <span class="product-price">
+                <span class="original">$17.99</span>$11.99
+              </span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <span class="trending-rank">#5</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780525559108-M.jpg"
+              alt="Lessons in Chemistry"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">⚗️</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Historical Fiction</p>
+            <p class="product-name">Lessons in Chemistry</p>
+            <p class="product-author">Bonnie Garmus</p>
+            <div class="product-stars">★★★★★</div>
+            <div class="product-foot">
+              <span class="product-price">$15.99</span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="product-card" onclick="">
+          <div class="product-img">
+            <span class="trending-rank">#6</span>
+            <span class="product-badge badge-new">NEW</span>
+            <img
+              src="https://covers.openlibrary.org/b/isbn/9780316485661-M.jpg"
+              alt="The Covenant of Water"
+              onerror="this.style.display='none';this.closest('.product-img').classList.add('no-cover')"
+            />
+            <span class="cover-fallback">💧</span>
+          </div>
+          <div class="product-body">
+            <p class="product-cat">Historical Fiction</p>
+            <p class="product-name">The Covenant of Water</p>
+            <p class="product-author">Abraham Verghese</p>
+            <div class="product-stars">★★★★☆</div>
+            <div class="product-foot">
+              <span class="product-price">$18.99</span>
+              <button class="add-to-cart-btn" aria-label="Add to cart">+</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.trending-grid -->
+    </div><!-- /.trending-track-wr
     <!-- ══════════════════ FEATURED BOOKS & ACCESSORIES ══════════════════ -->
     <section class="section" id="products">
       <div class="section-header">
@@ -212,6 +378,24 @@
   </footer>
 
   <div class="toast" id="toast"></div>
+    <!-- Scroll-reveal observer: adds .in-view class when sections enter viewport.
+     Works on any element with class="reveal". Safe — no global vars polluted. -->
+<script>
+(function () {
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        observer.unobserve(e.target); /* fire once */
+      }
+    }),
+    { threshold: 0.12 }
+  );
+  /* Observe section headers and the trending section */
+  document.querySelectorAll('.section-header, .trending-section, .chat-cta-text')
+    .forEach(el => { el.classList.add('reveal'); observer.observe(el); });
+})();
+</script>
   <script src="main.js"></script>
 </body>
 </html>
