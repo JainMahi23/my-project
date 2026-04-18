@@ -378,6 +378,24 @@
   </footer>
 
   <div class="toast" id="toast"></div>
+    <!-- Scroll-reveal observer: adds .in-view class when sections enter viewport.
+     Works on any element with class="reveal". Safe — no global vars polluted. -->
+<script>
+(function () {
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        observer.unobserve(e.target); /* fire once */
+      }
+    }),
+    { threshold: 0.12 }
+  );
+  /* Observe section headers and the trending section */
+  document.querySelectorAll('.section-header, .trending-section, .chat-cta-text')
+    .forEach(el => { el.classList.add('reveal'); observer.observe(el); });
+})();
+</script>
   <script src="main.js"></script>
 </body>
 </html>
