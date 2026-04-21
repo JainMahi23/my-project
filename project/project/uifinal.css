@@ -1582,3 +1582,71 @@ h1, h2, h3, h4 {
   .card-3 { transform: rotate(-2deg); }
   .hero-badge { animation: none; }
 }
+/* ══════════════════════════════════════════════════════════
+   SAFE FIXES — DO NOT REMOVE ORIGINAL CODE
+══════════════════════════════════════════════════════════ */
+
+/* Prevent horizontal overflow */
+body {
+  overflow-x: hidden;
+}
+
+/* Fix oversized hero heading */
+.hero-heading {
+  font-size: clamp(2.5rem, 5vw, 4.2rem) !important;
+  max-width: 90%;
+  word-break: break-word;
+}
+
+/* Keep hero content aligned */
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-sub {
+  max-width: 520px;
+}
+
+/* Fix floating cards overflow */
+.hero-card-stack {
+  width: 280px !important;
+  height: 320px !important;
+  overflow: hidden;
+}
+
+.float-card {
+  width: 160px !important;
+}
+
+/* Reduce aggressive animation scaling */
+.float-card:hover {
+  transform: translateY(-8px) scale(1.01) !important;
+}
+
+.product-card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+}
+
+/* Ensure text/images stay inside screen */
+img, h1, h2, h3, p {
+  max-width: 100%;
+}
+
+/* Fix trending section */
+.trending-section-wrap {
+  padding: 60px 20px;
+}
+
+.trending-track-wrapper {
+  overflow-x: auto;
+}
+
+.trending-grid {
+  display: flex;
+  gap: 20px;
+  min-width: 100%;
+}
+
+.trending-grid .product-card {
+  min-width: 220px;
+}
