@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reads — Kitabiverse</title>
+  <link rel="stylesheet" href="navbar.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+  <style>
+/* ═══════════════════════════════════════════════════════
+   KITABIVERSE — reads.css
+   Personal book recommendation engine
+═══════════════════════════════════════════════════════ */
+:root {
+  --bg:       #f7f4ef;
+  --bg-alt:   #ede8e1;
+  --bg-deep:  #e4ddd3;
+  --surface:  #ffffff;
+  --border:   #e2dbd2;
+  --border-2: #d0c8bc;
+  --ink:      #1a1714;
+  --ink-2:    #4a443d;
+  --ink-3:    #8a8078;
+  --ink-4:    #b8b0a6;
+  --accent:   #c8412a;
+  --accent-l: rgba(200,65,42,.1);
+  --gold:     #d4a843;
+  --gold-l:   rgba(212,168,67,.12);
+  --green:    #2d7a52;
+  --green-l:  rgba(45,122,82,.1);
+  --dark:     #171412;
+
+  --font-d: 'Playfair Display', Georgia, serif;
+  --font-b: 'DM Sans', sans-serif;
+
+  --r-xs: 6px; --r-sm: 10px; --r-md: 16px;
+  --r-lg: 22px; --r-xl: 32px;
+  --ease: cubic-bezier(.4,0,.2,1);
+  --spring: cubic-bezier(.34,1.56,.64,1);
+  --sh-sm: 0 2px 8px rgba(0,0,0,.05);
+  --sh-md: 0 6px 24px rgba(0,0,0,.09);
+  --sh-lg: 0 16px 48px rgba(0,0,0,.13);
+}
+
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--ink); font-family:var(--font-b);
+       line-height:1.6; overflow-x:hidden; }
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; }
+button { cursor:pointer; border:none; background:none; font-family:inherit; color:inherit; }
+h1,h2,h3,h4 { font-family:var(--font-d); line-height:1.15; }
+
+/* ── Page wrapper ──────────────────────────────────── */
+.page-wrap { max-width:1200px; margin:0 auto; padding:48px 24px 80px; }
+
+/* ── Hero ──────────────────────────────────────────── */
+.reads-hero {
+  text-align:center;
+  padding:56px 24px 48px;
+  position:relative;
+  overflow:hidden;
+}
+.reads-hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,67,.14), transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:.72rem; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:18px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after {
+  content:''; width:24px; height:1.5px;
+  background:var(--accent); opacity:.5;
+}
+.reads-hero h1 {
+  font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:700; letter-spacing:-.03em; margin-bottom:16px;
+}
+.reads-hero h1 em { font-style:italic; color:var(--accent); }
+.reads-hero p {
+  font-size:1.05rem; color:var(--ink-2); max-width:520px;
+  margin:0 auto 36px; line-height:1.7;
+}
+.hero-stats {
+  display:flex; justify-content:center; gap:32px; flex-wrap:wrap;
+}
+.hero-stat { text-align:center; }
+.hero-stat strong {
+  display:block; font-family:var(--font-d);
+  font-size:1.6rem; font-weight:700; line-height:1;
+}
+.hero-stat span { font-size:.75rem; color:var(--ink-3); }
+
+/* ── Section titles ────────────────────────────────── */
+.section-label {
+  font-size:.7rem; font-weight:700; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:8px;
+}
+.section-heading {
+  font-size:clamp(1.5rem,2.5vw,2.2rem);
+  font-weight:700; letter-spacing:-.02em; margin-bottom:6px;
+}
+.section-sub { font-size:.9rem; color:var(--ink-2); }
+
+/* ════════════════════════════════════════════════════
+   TASTE QUIZ SECTION
+════════════════════════════════════════════════════ */
+.quiz-section {
+  background:var(--surface);
+  border-radius:var(--r-xl);
+  border:1px solid var(--border);
+  box-shadow:var(--sh-md);
+  overflow:hidden;
+  margin-bottom:64px;
+}
+
+/* Progress bar */
+.quiz-progress-bar {
+  height:3px; background:var(--border);
+  position:relative; overflow:hidden;
+}
+.quiz-progress-fill {
+  height:100%; background:var(--accent);
+  border-radius:0 3px 3px 0;
+  transition:width .5s var(--ease);
+}
+
+.quiz-header {
+  padding:32px 40px 0;
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:20px;
+}
+.quiz-step-label {
+  font-size:.72rem; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase;
+  color:var(--ink-3); margin-bottom:8px;
+}
+.quiz-question {
+  font-family:var(--font-d);
+  font-size:clamp(1.2rem,2.5vw,1.7rem);
+  font-weight:600; max-width:580px; line-height:1.3;
+}
+.quiz-skip {
+  font-size:.8rem; color:var(--ink-3); padding:6px 12px;
+  border-radius:100px; border:1px solid var(--border);
+  transition:all .2s; white-space:nowrap; flex-shrink:0;
+  margin-top:4px;
+}
+.quiz-skip:hover { border-color:var(--ink-3); color:var(--ink); }
+
+.quiz-body { padding:28px 40px 36px; }
+
+/* ── Option grids ──────────────────────────────────── */
+.options-grid {
+  display:grid; gap:12px;
+  grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+}
+.options-grid.cols-2 { grid-template-columns:1fr 1fr; }
+.options-grid.cols-3 { grid-template-columns:repeat(3,1fr); }
+
+.option-card {
+  border:1.5px solid var(--border);
+  border-radius:var(--r-md);
+  padding:16px 18px;
+  cursor:pointer;
+  transition:all .2s var(--ease);
+  display:flex; align-items:flex-start; gap:12px;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.option-card::before {
+  content:'';
+  position:absolute; inset:0;
+  background:var(--accent); opacity:0;
+  transition:opacity .2s;
+}
+.option-card:hover { border-color:var(--border-2); transform:translateY(-2px); box-shadow:var(--sh-sm); }
+.option-card.selected {
+  border-color:var(--accent);
+  background:var(--accent-l);
+  transform:translateY(-2px);
+  box-shadow:0 4px 16px rgba(200,65,42,.15);
+}
+.option-card.selected::after {
+  content:'✓';
+  position:absolute; top:8px; right:10px;
+  font-size:.75rem; font-weight:700;
+  color:var(--accent);
+}
+.opt-emoji { font-size:1.6rem; line-height:1; flex-shrink:0; margin-top:1px; }
+.opt-title { font-weight:600; font-size:.9rem; margin-bottom:2px; }
+.opt-sub { font-size:.75rem; color:var(--ink-3); line-height:1.4; }
+
+/* Mood slider */
+.mood-slider-wrap { padding:8px 0 16px; }
+.mood-labels {
+  display:flex; justify-content:space-between;
+  font-size:.75rem; color:var(--ink-3); margin-bottom:12px;
+}
+.mood-slider {
+  width:100%; -webkit-appearance:none; appearance:none;
+  height:6px; border-radius:6px;
+  background:linear-gradient(to right, var(--accent) 0%, var(--accent) 50%, var(--border) 50%);
+  outline:none; cursor:pointer;
+}
+.mood-slider::-webkit-slider-thumb {
+  -webkit-appearance:none; width:22px; height:22px;
+  border-radius:50%; background:var(--accent);
+  box-shadow:0 2px 8px rgba(200,65,42,.4);
+  cursor:pointer; transition:transform .15s;
+}
+.mood-slider::-webkit-slider-thumb:hover { transform:scale(1.2); }
+.mood-value {
+  text-align:center; margin-top:12px;
+  font-family:var(--font-d); font-size:1.1rem;
+  font-style:italic; color:var(--ink-2); min-height:26px;
+}
+
+/* Pace options */
+.pace-options { display:flex; gap:12px; flex-wrap:wrap; }
+.pace-card {
+  flex:1; min-width:120px;
+  border:1.5px solid var(--border);
+  border-radius:var(--r-md);
+  padding:18px 16px; text-align:center;
+  cursor:pointer; transition:all .2s;
+  background:var(--bg);
+}
+.pace-card:hover { border-color:var(--border-2); transform:translateY(-2px); }
+.pace-card.selected { border-color:var(--accent); background:var(--accent-l); }
+.pace-icon { font-size:1.8rem; margin-bottom:8px; }
+.pace-label { font-weight:600; font-size:.88rem; margin-bottom:3px; }
+.pace-desc { font-size:.73rem; color:var(--ink-3); }
+
+/* Quiz navigation */
+.quiz-nav {
+  padding:0 40px 32px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.quiz-dots { display:flex; gap:6px; }
+.quiz-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:var(--border); transition:all .25s;
+}
+.quiz-dot.done { background:var(--ink-3); }
+.quiz-dot.current { background:var(--accent); width:20px; border-radius:4px; }
+.quiz-btn-row { display:flex; gap:10px; }
+.btn-back {
+  padding:10px 22px; border-radius:100px;
+  border:1.5px solid var(--border); font-size:.875rem;
+  font-weight:500; transition:all .2s; color:var(--ink-2);
+}
+.btn-back:hover { border-color:var(--ink-3); color:var(--ink); }
+.btn-next {
+  padding:10px 28px; border-radius:100px;
+  background:var(--ink); color:var(--bg);
+  font-size:.875rem; font-weight:600;
+  transition:all .2s; display:flex; align-items:center; gap:8px;
+}
+.btn-next:hover { background:var(--accent); transform:translateY(-1px); }
+.btn-next:disabled { opacity:.45; pointer-events:none; }
+.btn-analyze {
+  padding:12px 32px; border-radius:100px;
+  background:var(--accent); color:#fff;
+  font-size:.9rem; font-weight:700;
+  transition:all .25s; display:flex; align-items:center; gap:8px;
+  box-shadow:0 4px 16px rgba(200,65,42,.3);
+}
+.btn-analyze:hover { background:#b03622; transform:translateY(-2px); box-shadow:0 8px 24px rgba(200,65,42,.35); }
+
+/* ── Analyzing overlay ─────────────────────────────── */
+.analyzing-overlay {
+  display:none;
+  padding:60px 40px;
+  text-align:center;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:24px;
+}
+.analyzing-overlay.active { display:flex; }
+.analyze-spinner {
+  width:56px; height:56px;
+  border:3px solid var(--border);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.analyze-text {
+  font-family:var(--font-d); font-size:1.3rem;
+  font-style:italic; color:var(--ink-2);
+}
+.analyze-steps { display:flex; flex-direction:column; gap:8px; }
+.analyze-step {
+  display:flex; align-items:center; gap:10px;
+  font-size:.85rem; color:var(--ink-3);
+  opacity:0; animation:fadeInStep .4s forwards;
+}
+.analyze-step.done { color:var(--green); }
+.analyze-step .step-icon { font-size:1rem; }
+@keyframes fadeInStep { to { opacity:1; } }
+
+/* ════════════════════════════════════════════════════
+   PURCHASE HISTORY SECTION
+════════════════════════════════════════════════════ */
+.history-section { margin-bottom:64px; }
+.history-header {
+  display:flex; align-items:flex-end; justify-content:space-between;
+  margin-bottom:24px; gap:16px; flex-wrap:wrap;
+}
+.history-scroll {
+  display:flex; gap:14px;
+  overflow-x:auto; padding-bottom:12px;
+  scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+}
+.history-scroll::-webkit-scrollbar { height:4px; }
+.history-scroll::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+.history-card {
+  min-width:120px; background:var(--surface);
+  border:1px solid var(--border); border-radius:var(--r-md);
+  overflow:hidden; flex-shrink:0;
+  transition:transform .25s, box-shadow .25s;
+  cursor:pointer; position:relative;
+}
+.history-card:hover { transform:translateY(-4px); box-shadow:var(--sh-md); }
+.history-cover {
+  height:155px; background:var(--bg-alt);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; font-size:2.5rem;
+}
+.history-cover img { width:100%; height:100%; object-fit:cover; transition:transform .3s; }
+.history-card:hover .history-cover img { transform:scale(1.06); }
+.history-info { padding:10px; }
+.history-title {
+  font-family:var(--font-d); font-size:.78rem; font-weight:600;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin-bottom:2px;
+}
+.history-author { font-size:.68rem; color:var(--ink-3); }
+.history-badge {
+  position:absolute; top:6px; left:6px;
+  background:var(--green); color:#fff;
+  font-size:.6rem; font-weight:700; padding:2px 7px;
+  border-radius:100px; letter-spacing:.06em;
+}
+
+/* ════════════════════════════════════════════════════
+   RECOMMENDATIONS OUTPUT
+════════════════════════════════════════════════════ */
+.reco-section { margin-bottom:64px; }
+.reco-section.hidden { display:none; }
+
+/* Taste profile card */
+.taste-profile {
+  background:var(--dark);
+  color:#f0ebe4;
+  border-radius:var(--r-xl);
+  padding:32px 36px;
+  margin-bottom:40px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:24px;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+}
+.taste-profile::before {
+  content:'';
+  position:absolute; top:-40px; right:-40px;
+  width:200px; height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(212,168,67,.18), transparent 70%);
+  pointer-events:none;
+}
+.taste-label {
+  font-size:.7rem; font-weight:600; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gold);
+  margin-bottom:10px;
+}
+.taste-title {
+  font-family:var(--font-d); font-size:1.6rem;
+  font-style:italic; margin-bottom:14px;
+  color:#f0ebe4;
+}
+.taste-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.taste-tag {
+  padding:4px 12px; border-radius:100px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  font-size:.75rem; color:#d4cec8;
+}
+.taste-score {
+  text-align:center;
+  background:rgba(255,255,255,.06);
+  border-radius:var(--r-lg);
+  padding:20px 24px;
+  border:1px solid rgba(255,255,255,.1);
+  flex-shrink:0;
+}
+.score-num {
+  font-family:var(--font-d); font-size:3rem;
+  font-weight:700; color:var(--gold); line-height:1;
+}
+.score-label { font-size:.72rem; color:#9a9088; margin-top:4px; }
+
+/* Recommendation tabs */
+.reco-tabs {
+  display:flex; gap:0; border-bottom:2px solid var(--border);
+  margin-bottom:32px; overflow-x:auto;
+}
+.reco-tab {
+  padding:12px 20px; font-size:.875rem; font-weight:500;
+  color:var(--ink-3); border-bottom:2px solid transparent;
+  margin-bottom:-2px; white-space:nowrap;
+  transition:color .2s, border-color .2s;
+}
+.reco-tab.active { color:var(--accent); border-color:var(--accent); }
+.reco-tab:hover { color:var(--ink); }
+.reco-tab-content { display:none; }
+.reco-tab-content.active { display:block; }
+
+/* Featured recommendation */
+.featured-reco {
+  display:grid; grid-template-columns:200px 1fr;
+  gap:32px; align-items:start;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-xl);
+  overflow:hidden;
+  margin-bottom:28px;
+  box-shadow:var(--sh-sm);
+  transition:box-shadow .3s, transform .3s;
+}
+.featured-reco:hover { box-shadow:var(--sh-md); transform:translateY(-3px); }
+.featured-cover {
+  aspect-ratio:2/3; overflow:hidden;
+  background:var(--bg-alt);
+  display:flex; align-items:center; justify-content:center;
+  font-size:4rem;
+}
+.featured-cover img { width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+.featured-reco:hover .featured-cover img { transform:scale(1.04); }
+.featured-body { padding:28px 28px 28px 0; }
+.match-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:4px 12px; border-radius:100px;
+  background:var(--green-l); border:1px solid rgba(45,122,82,.2);
+  color:var(--green); font-size:.72rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px;
+}
+.featured-genre {
+  font-size:.7rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--accent); margin-bottom:8px;
+}
+.featured-title {
+  font-family:var(--font-d); font-size:1.5rem;
+  font-weight:700; margin-bottom:6px; line-height:1.2;
+}
+.featured-author { font-size:.9rem; color:var(--ink-2); margin-bottom:14px; }
+.featured-why {
+  font-size:.875rem; color:var(--ink-2);
+  line-height:1.7; margin-bottom:20px;
+  border-left:3px solid var(--gold);
+  padding-left:14px;
+}
+.featured-meta { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:20px; }
+.meta-item { display:flex; align-items:center; gap:6px; font-size:.8rem; color:var(--ink-3); }
+.meta-item span:first-child { font-size:1rem; }
+.reco-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.btn-add-cart {
+  padding:10px 22px; border-radius:100px;
+  background:var(--ink); color:var(--bg);
+  font-size:.85rem; font-weight:600;
+  transition:all .2s; display:flex; align-items:center; gap:6px;
+}
+.btn-add-cart:hover { background:var(--accent); transform:translateY(-1px); }
+.btn-save {
+  padding:10px 18px; border-radius:100px;
+  border:1.5px solid var(--border); font-size:.85rem;
+  font-weight:500; color:var(--ink-2);
+  transition:all .2s; display:flex; align-items:center; gap:6px;
+}
+.btn-save:hover { border-color:var(--accent); color:var(--accent); }
+.btn-save.saved { background:var(--accent-l); border-color:var(--accent); color:var(--accent); }
+
+/* Reco grid */
+.reco-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(175px,1fr));
+  gap:20px;
+}
+.reco-card {
+  
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+
+  transform: translateY(30px) scale(0.96);
+  opacity: 0;
+  animation: cardReveal .5s var(--spring) forwards;
+}
+
+@keyframes cardReveal {
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.reco-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.reco-card:hover { transform:translateY(-5px); box-shadow:var(--sh-md); }
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);} }
+.reco-card-img {
+  aspect-ratio:2/3; overflow:hidden;
+  background:var(--bg-alt);
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.8rem; position:relative;
+.reco-card-img {
+  aspect-ratio: 2/3;
+  overflow: hidden;
+  position: relative;
+  background: #ddd;
+}
+
+.reco-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease, filter .4s ease;
+}
+
+.reco-card:hover .reco-card-img img {
+  transform: scale(1.12);
+  filter: brightness(0.85);
+}
+
+/* Overlay */
+.reco-card-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.5), transparent 60%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.reco-card:hover .reco-card-img::after {
+  opacity: 1;
+}.reco-card-img img { width:100%;height:100%;object-fit:cover;transition:transform .3s; }
+.reco-card:hover .reco-card-img img { transform:scale(1.06); }
+.reco-match {
+  position:absolute; bottom:8px; left:8px;
+  background:var(--green); color:#fff;
+  font-size:.6rem; font-weight:700;
+  padding:3px 8px; border-radius:100px;
+}
+.reco-card-body { padding:12px; }
+.reco-card-genre {
+  font-size:.62rem; font-weight:700; text-transform:uppercase;
+  letter-spacing:.1em; color:var(--accent); margin-bottom:4px;
+}
+.reco-card-title {
+  font-family:var(--font-d); font-size:.9rem; font-weight:600;
+  line-height:1.3; margin-bottom:3px;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.reco-card-author { font-size:.72rem; color:var(--ink-3); margin-bottom:8px; }
+.reco-card-foot {
+  display:flex; align-items:center;
+  justify-content:space-between; gap:6px;
+}
+.reco-price { font-weight:700; font-size:.9rem; }
+.reco-price .old { font-size:.72rem;color:var(--ink-3);text-decoration:line-through;font-weight:400;margin-left:3px; }
+.add-btn {
+  width:28px;height:28px;border-radius:50%;
+  background:var(--ink);color:var(--bg);
+  display:grid;place-items:center;font-size:1rem;
+  transition:background .2s,transform .2s;
+  flex-shrink:0;
+}
+.add-btn:hover { background:var(--accent); transform:scale(1.12); }
+
+/* Why section */
+.why-chip {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:5px 12px; border-radius:100px;
+  background:var(--bg-alt); border:1px solid var(--border);
+  font-size:.75rem; color:var(--ink-2); margin:0 6px 8px 0;
+  cursor:default;
+}
+
+/* ── Re-take quiz button ────────────────────────────── */
+.retake-wrap {
+  text-align:center; padding:24px 0; margin-bottom:40px;
+}
+.btn-retake {
+  padding:10px 24px; border-radius:100px;
+  border:1.5px solid var(--border);
+  font-size:.85rem; font-weight:500; color:var(--ink-2);
+  transition:all .2s; display:inline-flex; align-items:center; gap:8px;
+}
+.btn-retake:hover { border-color:var(--ink); color:var(--ink); }
+
+/* ── Toast ─────────────────────────────────────────── */
+.toast {
+  position:fixed; bottom:32px; left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--ink); color:var(--bg);
+  padding:12px 28px; border-radius:100px;
+  font-size:.875rem; font-weight:500;
+  box-shadow:var(--sh-lg); z-index:9999;
+  transition:transform .35s var(--spring);
+  white-space:nowrap; pointer-events:none;
+}
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+/* ── Footer ────────────────────────────────────────── */
+.footer { background:var(--dark); color:#9a9088; padding:64px 24px 24px; }
+.footer-inner { max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid #2e2a26;margin-bottom:24px; }
+.footer-logo { display:flex;align-items:center;gap:10px;margin-bottom:16px; }
+.footer-logo-mark { width:32px;height:32px;background:var(--bg-alt);color:var(--ink);border-radius:8px;display:grid;place-items:center;font-family:var(--font-d);font-weight:700;font-size:1rem;font-style:italic; }
+.footer-logo-text { font-family:var(--font-d);font-size:1.2rem;font-weight:700;font-style:italic;color:var(--bg-alt); }
+.footer-brand p { font-size:.875rem; line-height:1.6; }
+.social-icons { display:flex;gap:12px;margin-top:20px; }
+.social-icons a { width:36px;height:36px;border:1px solid #2e2a26;border-radius:50%;display:grid;place-items:center;font-size:.9rem;color:#9a9088;transition:border-color .2s,color .2s; }
+.social-icons a:hover { border-color:var(--gold);color:var(--gold); }
+.footer-col h4 { font-family:var(--font-b);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#d4cec8;margin-bottom:20px; }
+.footer-col a { display:block;font-size:.875rem;margin-bottom:10px;transition:color .2s; }
+.footer-col a:hover { color:#d4cec8; }
+.footer-bottom { max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;font-size:.78rem;flex-wrap:wrap;gap:8px; }
+
+/* ── Responsive ────────────────────────────────────── */
+@media(max-width:768px) {
+  .page-wrap { padding:32px 16px 64px; }
+  .quiz-header,.quiz-body,.quiz-nav { padding-left:20px;padding-right:20px; }
+  .options-grid.cols-3 { grid-template-columns:1fr 1fr; }
+  .featured-reco { grid-template-columns:1fr; }
+  .featured-body { padding:20px; }
+  .featured-cover { aspect-ratio:unset; height:200px; }
+  .taste-profile { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:480px) {
+  .options-grid { grid-template-columns:1fr; }
+  .options-grid.cols-2,.options-grid.cols-3 { grid-template-columns:1fr; }
+  .footer-inner { grid-template-columns:1fr; }
+  .footer-bottom { flex-direction:column; }
+  .reco-grid { grid-template-columns:1fr 1fr; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Shared navbar — auto-activates "Reads" -->
+  <header class="kv-navbar" id="kv-navbar"></header>
+
+  <div class="page-wrap">
+
+    <!-- ══════ HERO ══════ -->
+    <div class="reads-hero">
+      <p class="hero-eyebrow">Personalised for You</p>
+      <h1>Your Perfect <em>Next Read</em></h1>
+      <p>Tell us what you love and we'll match you with books you'll devour. The more you share, the smarter it gets.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><strong>48K+</strong><span>Books Catalogued</span></div>
+        <div class="hero-stat"><strong>96%</strong><span>Match Accuracy</span></div>
+        <div class="hero-stat"><strong>12K</strong><span>Happy Readers</span></div>
+      </div>
+    </div>
+
+    <!-- ══════ PURCHASE HISTORY ══════ -->
+    <div class="history-section">
+      <div class="history-header">
+        <div>
+          <p class="section-label">Your Library</p>
+          <h2 class="section-heading">Previously Purchased</h2>
+          <p class="section-sub">We'll use these to sharpen your recommendations.</p>
+        </div>
+        <a href="store.html" style="font-size:.85rem;color:var(--accent);font-weight:500;padding-bottom:2px;border-bottom:1px solid var(--accent);">Browse More →</a>
+      </div>
+      <div class="history-scroll" id="historyScroll"></div>
+    </div>
+
+    <!-- ══════ TASTE QUIZ ══════ -->
+    <div style="margin-bottom:16px;">
+      <p class="section-label">Taste Engine</p>
+      <h2 class="section-heading">Answer a Few Quick Questions</h2>
+      <p class="section-sub" style="margin-bottom:24px;">Takes under 2 minutes. Skip any question you like.</p>
+    </div>
+
+    <div class="quiz-section" id="quizSection">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="progressFill" style="width:0%"></div></div>
+
+      <!-- Steps rendered by JS -->
+      <div id="quizContent"></div>
+
+      <!-- Analyzing overlay -->
+      <div class="analyzing-overlay" id="analyzingOverlay">
+        <div class="analyze-spinner"></div>
+        <div class="analyze-text">Curating your perfect reading list…</div>
+        <div class="analyze-steps" id="analyzeSteps"></div>
+      </div>
+    </div>
+
+    <!-- ══════ RECOMMENDATIONS ══════ -->
+    <div class="reco-section hidden" id="recoSection">
+      <div class="retake-wrap">
+        <button class="btn-retake" id="retakeBtn">↺ Retake Quiz &amp; Refresh Picks</button>
+      </div>
+
+      <!-- Taste profile -->
+      <div class="taste-profile" id="tasteProfile"></div>
+
+      <!-- Tabs -->
+      <div class="reco-tabs" id="recoTabs"></div>
+      <div id="recoTabContents"></div>
+    </div>
+
+  </div><!-- .page-wrap -->
+
+  <!-- ══════ FOOTER ══════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-mark">K</span>
+          <span class="footer-logo-text">kitabiverse</span>
+        </div>
+        <p>Your literary world, curated.</p>
+        <div class="social-icons"><a href="#">𝕏</a><a href="#">◎</a><a href="#">G</a></div>
+      </div>
+      <div class="footer-col"><h4>Shop</h4><a href="store.html">New Releases</a><a href="store.html">Best Sellers</a><a href="store.html">Deals</a><a href="#">Gift Cards</a></div>
+      <div class="footer-col"><h4>Discover</h4><a href="reads.html">Book Club</a><a href="#">Reading Feed</a><a href="#">Chat Rooms</a><a href="#">Author Events</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#">Careers</a><a href="#">Press</a><a href="#">Contact</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 Kitabiverse. All rights reserved.</span><span>Privacy · Terms · Cookies</span></div>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="navbar.js"></script>
+  <script>
+'use strict';
+
+/* ═══════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════ */
+const PURCHASE_HISTORY = [
+  { id:1,  title:'Atomic Habits',       author:'James Clear',       genre:'selfhelp', cover:'https://covers.openlibrary.org/b/isbn/9780735211292-M.jpg', emoji:'⚡', bought:'Jan 2025' },
+  { id:2,  title:'Dune',                author:'Frank Herbert',     genre:'scifi',    cover:'https://covers.openlibrary.org/b/isbn/9780441013593-M.jpg', emoji:'🌌', bought:'Dec 2024' },
+  { id:3,  title:'Sapiens',             author:'Yuval Noah Harari', genre:'nonfiction',cover:'https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg',emoji:'🔭', bought:'Nov 2024' },
+  { id:4,  title:'The Midnight Library',author:'Matt Haig',         genre:'fiction',  cover:'https://covers.openlibrary.org/b/isbn/9780525559474-M.jpg', emoji:'📚', bought:'Oct 2024' },
+  { id:5,  title:'Deep Work',           author:'Cal Newport',       genre:'selfhelp', cover:'https://covers.openlibrary.org/b/isbn/9781455586691-M.jpg', emoji:'🧠', bought:'Sep 2024' },
+  { id:6,  title:'1984',                author:'George Orwell',     genre:'fiction',  cover:'https://covers.openlibrary.org/b/isbn/9780451524935-M.jpg', emoji:'👁', bought:'Aug 2024' },
+];
+
+const ALL_BOOKS = [
+  { id:101, title:'The Psychology of Money',       author:'Morgan Housel',     genre:'nonfiction', price:349, oldPrice:499, rating:4.8, cover:'https://covers.openlibrary.org/b/isbn/9780857197689-M.jpg', emoji:'💸',  pages:256,  year:2020, tags:['finance','behaviour','investing'] },
+  { id:102, title:'Project Hail Mary',             author:'Andy Weir',          genre:'scifi',     price:449, oldPrice:599, rating:4.9, cover:'https://covers.openlibrary.org/b/isbn/9780593135204-M.jpg', emoji:'🚀',  pages:476,  year:2021, tags:['space','survival','science'] },
+  { id:103, title:'Educated',                      author:'Tara Westover',      genre:'memoir',    price:399, oldPrice:null,rating:4.7, cover:'https://covers.openlibrary.org/b/isbn/9780399590504-M.jpg', emoji:'🎓',  pages:352,  year:2018, tags:['family','resilience','identity'] },
+  { id:104, title:'The Almanack of Naval Ravikant',author:'Eric Jorgenson',     genre:'selfhelp',  price:299, oldPrice:399, rating:4.8, cover:'https://covers.openlibrary.org/b/isbn/9781544514215-M.jpg', emoji:'🧘',  pages:242,  year:2020, tags:['wisdom','wealth','philosophy'] },
+  { id:105, title:'Klara and the Sun',             author:'Kazuo Ishiguro',     genre:'scifi',     price:499, oldPrice:null,rating:4.5, cover:'https://covers.openlibrary.org/b/isbn/9780571364879-M.jpg', emoji:'☀️',  pages:320,  year:2021, tags:['AI','loneliness','literary'] },
+  { id:106, title:'How to Think Like a Roman Emperor',author:'Donald Robertson',genre:'selfhelp', price:349, oldPrice:null,rating:4.6, cover:'https://covers.openlibrary.org/b/isbn/9781250196620-M.jpg', emoji:'🏛️',  pages:272,  year:2019, tags:['stoicism','philosophy','mindset'] },
+  { id:107, title:'Never Never',                   author:'Colleen Hoover',     genre:'fiction',   price:299, oldPrice:null,rating:4.4, cover:'https://covers.openlibrary.org/b/isbn/9781455584550-M.jpg', emoji:'💔',  pages:336,  year:2015, tags:['romance','mystery','emotional'] },
+  { id:108, title:'The Code Book',                 author:'Simon Singh',        genre:'nonfiction',price:449, oldPrice:599, rating:4.7, cover:'https://covers.openlibrary.org/b/isbn/9780385495325-M.jpg', emoji:'🔐',  pages:432,  year:1999, tags:['cryptography','history','science'] },
+  { id:109, title:'Exhalation',                    author:'Ted Chiang',         genre:'scifi',     price:399, oldPrice:null,rating:4.8, cover:'https://covers.openlibrary.org/b/isbn/9781101947913-M.jpg', emoji:'💨',  pages:352,  year:2019, tags:['shortstories','philosophy','AI'] },
+  { id:110, title:'A Man Called Ove',              author:'Fredrik Backman',    genre:'fiction',   price:329, oldPrice:449, rating:4.7, cover:'https://covers.openlibrary.org/b/isbn/9781501156700-M.jpg', emoji:'🏡',  pages:337,  year:2012, tags:['heartwarming','humour','community'] },
+  { id:111, title:'The Subtle Art of Not Giving a F*ck',author:'Mark Manson',  genre:'selfhelp',  price:349, oldPrice:499, rating:4.3, cover:'https://covers.openlibrary.org/b/isbn/9780062457714-M.jpg', emoji:'🔥',  pages:224,  year:2016, tags:['mindset','counterintuitive','modern'] },
+  { id:112, title:'Children of Time',              author:'Adrian Tchaikovsky', genre:'scifi',     price:499, oldPrice:null,rating:4.8, cover:'https://covers.openlibrary.org/b/isbn/9781447273189-M.jpg', emoji:'🕷️',  pages:600,  year:2015, tags:['hardscifi','evolution','civilisation'] },
+  { id:113, title:'Anxious People',                author:'Fredrik Backman',   genre:'fiction',   price:449, oldPrice:549, rating:4.6, cover:'https://covers.openlibrary.org/b/isbn/9781982121389-M.jpg', emoji:'🏠',  pages:352,  year:2020, tags:['humour','compassion','mystery'] },
+  { id:114, title:'The Daily Stoic',               author:'Ryan Holiday',       genre:'selfhelp',  price:399, oldPrice:null,rating:4.7, cover:'https://covers.openlibrary.org/b/isbn/9780735211735-M.jpg', emoji:'📿',  pages:416,  year:2016, tags:['stoicism','daily','philosophy'] },
+  { id:115, title:'The Three-Body Problem',        author:'Liu Cixin',          genre:'scifi',     price:499, oldPrice:649, rating:4.7, cover:'https://covers.openlibrary.org/b/isbn/9780765382030-M.jpg', emoji:'🌍',  pages:400,  year:2008, tags:['hardscifi','china','firstcontact'] },
+  { id:116, title:'Normal People',                 author:'Sally Rooney',       genre:'fiction',   price:399, oldPrice:null,rating:4.5, cover:'https://covers.openlibrary.org/b/isbn/9780571334650-M.jpg', emoji:'💌',  pages:273,  year:2018, tags:['romance','literary','contemporary'] },
+  { id:117, title:'Brief History of Time',         author:'Stephen Hawking',   genre:'nonfiction', price:399, oldPrice:null,rating:4.6, cover:'https://covers.openlibrary.org/b/isbn/9780553380163-M.jpg', emoji:'🌌',  pages:212,  year:1988, tags:['physics','cosmology','science'] },
+  { id:118, title:'The Hitchhiker\'s Guide to the Galaxy',author:'Douglas Adams',genre:'scifi',   price:349, oldPrice:null,rating:4.8, cover:'https://covers.openlibrary.org/b/isbn/9780330508537-M.jpg', emoji:'🪐',  pages:224,  year:1979, tags:['humour','adventure','classic'] },
+];
+
+/* ═══════════════════════════════════════════════════════
+   QUIZ STEPS
+═══════════════════════════════════════════════════════ */
+const QUIZ_STEPS = [
+  {
+    id:'genres',
+    question:'Which genres pull you in without fail?',
+    hint:'Pick as many as you like',
+    type:'multi',
+    cols:3,
+    options:[
+      { value:'fiction',   emoji:'📖', title:'Literary Fiction',    sub:'Stories about people & life' },
+      { value:'scifi',     emoji:'🚀', title:'Sci-Fi / Fantasy',    sub:'Worlds beyond imagination' },
+      { value:'nonfiction',emoji:'🔭', title:'Non-Fiction',         sub:'Truth stranger than fiction' },
+      { value:'selfhelp',  emoji:'⚡', title:'Self-Help',           sub:'Grow and improve daily' },
+      { value:'thriller',  emoji:'🔪', title:'Thriller / Mystery',  sub:'Edge-of-seat suspense' },
+      { value:'memoir',    emoji:'✍️', title:'Biography / Memoir',  sub:'Real lives, real lessons' },
+    ]
+  },
+  {
+    id:'mood',
+    question:'What kind of emotional experience are you after?',
+    hint:'Drag the slider to match your current mood',
+    type:'slider',
+    labels:['Light & Uplifting','Intense & Deep'],
+    moods:['Something funny and warm','A gentle feel-good story','Balanced — mix of emotions','Thought-provoking and layered','Dark, intense, and immersive']
+  },
+  {
+    id:'pace',
+    question:'How do you like to read?',
+    hint:'Pick your reading style',
+    type:'pace',
+    options:[
+      { value:'fast',   icon:'⚡', label:'Page-turner', desc:'Can\'t put it down' },
+      { value:'medium', icon:'📖', label:'Comfortable', desc:'Steady and satisfying' },
+      { value:'slow',   icon:'🍵', label:'Slow burn',   desc:'Savour every word' },
+      { value:'short',  icon:'⏱',  label:'Short reads',  desc:'Under 250 pages' },
+    ]
+  },
+  {
+    id:'themes',
+    question:'Which themes resonate with you most?',
+    hint:'Select up to 3',
+    type:'multi',
+    max:3,
+    cols:2,
+    options:[
+      { value:'identity',    emoji:'🪞', title:'Identity & Self',     sub:'Who am I really?' },
+      { value:'adventure',   emoji:'🗺️', title:'Adventure',           sub:'Journeys & discovery' },
+      { value:'love',        emoji:'💌', title:'Love & Relationships', sub:'Human connection' },
+      { value:'philosophy',  emoji:'🏛️', title:'Philosophy',          sub:'Big ideas & questions' },
+      { value:'technology',  emoji:'💻', title:'Science & Tech',      sub:'How things work' },
+      { value:'history',     emoji:'⏳', title:'History & Society',   sub:'Learn from the past' },
+    ]
+  },
+  {
+    id:'time',
+    question:'How much time do you have to read each day?',
+    hint:'Be honest — no pressure!',
+    type:'multi',
+    cols:2,
+    single:true,
+    options:[
+      { value:'15min', emoji:'⏰', title:'15–30 minutes',  sub:'A chapter before bed' },
+      { value:'1hr',   emoji:'☕', title:'About an hour',  sub:'Weekend mornings' },
+      { value:'2hr',   emoji:'📚', title:'2+ hours',       sub:'I read seriously' },
+      { value:'binge', emoji:'🌙', title:'Weekend binge',  sub:'All-day reading sessions' },
+    ]
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const state = {
+  step: 0,
+  answers: {},
+  cartCount: parseInt(localStorage.getItem('kv_simple_count') || '0'),
+  saved: new Set(),
+};
+
+/* ═══════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════ */
+function $(id) { return document.getElementById(id); }
+let toastT;
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 2800);
+}
+function addToCart(title) {
+  state.cartCount++;
+  localStorage.setItem('kv_simple_count', state.cartCount);
+  if (window.kvUpdateCartBadge) window.kvUpdateCartBadge(state.cartCount);
+  showToast(`🛒 "${title.substring(0,22)}…" added to cart`);
+}
+function starsStr(r) { return '★'.repeat(Math.floor(r)) + (r%1>=.5?'½':'') + '☆'.repeat(5-Math.floor(r)-(r%1>=.5?1:0)); }
+
+/* ═══════════════════════════════════════════════════════
+   PURCHASE HISTORY RENDER
+═══════════════════════════════════════════════════════ */
+function renderHistory() {
+  $('historyScroll').innerHTML = PURCHASE_HISTORY.map(b => `
+    <div class="history-card">
+      <span class="history-badge">✓ Purchased</span>
+      <div class="history-cover">
+        <img src="${b.cover}" alt="${b.title}" loading="lazy"
+             onerror="this.style.display='none';this.parentNode.textContent='${b.emoji}'" />
+      </div>
+      <div class="history-info">
+        <div class="history-title" title="${b.title}">${b.title}</div>
+        <div class="history-author">${b.author}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   QUIZ RENDER
+═══════════════════════════════════════════════════════ */
+function updateProgress() {
+  const pct = (state.step / QUIZ_STEPS.length) * 100;
+  $('progressFill').style.width = pct + '%';
+}
+
+function renderDots() {
+  return QUIZ_STEPS.map((_, i) =>
+    `<div class="quiz-dot ${i < state.step ? 'done' : i === state.step ? 'current' : ''}"></div>`
+  ).join('');
+}
+
+function renderStep() {
+  const s = QUIZ_STEPS[state.step];
+  const ans = state.answers[s.id];
+
+  let bodyHTML = '';
+
+  if (s.type === 'multi' || s.type === 'single') {
+    const selected = ans ? (Array.isArray(ans) ? ans : [ans]) : [];
+    bodyHTML = `<div class="options-grid ${s.cols === 2 ? 'cols-2' : s.cols === 3 ? 'cols-3' : ''}">
+      ${s.options.map(o => `
+        <div class="option-card ${selected.includes(o.value) ? 'selected' : ''}"
+             data-value="${o.value}" onclick="handleOption(this, '${s.id}', '${o.value}', ${!!s.single}, ${s.max||99})">
+          <span class="opt-emoji">${o.emoji}</span>
+          <div><div class="opt-title">${o.title}</div><div class="opt-sub">${o.sub}</div></div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  if (s.type === 'slider') {
+    const val = ans !== undefined ? ans : 2;
+    const moods = s.moods;
+    bodyHTML = `<div class="mood-slider-wrap">
+      <div class="mood-labels"><span>${s.labels[0]}</span><span>${s.labels[1]}</span></div>
+      <input type="range" class="mood-slider" min="0" max="4" step="1" value="${val}" id="moodSlider"
+             oninput="handleSlider(this.value)" />
+      <div class="mood-value" id="moodValue">${moods[val]}</div>
+    </div>`;
+    // Store default
+    if (ans === undefined) state.answers[s.id] = val;
+  }
+
+  if (s.type === 'pace') {
+    const selected = ans || '';
+    bodyHTML = `<div class="pace-options">
+      ${s.options.map(o => `
+        <div class="pace-card ${selected === o.value ? 'selected' : ''}"
+             data-value="${o.value}" onclick="handlePace(this, '${o.value}')">
+          <div class="pace-icon">${o.icon}</div>
+          <div class="pace-label">${o.label}</div>
+          <div class="pace-desc">${o.desc}</div>
+        </div>`).join('')}
+    </div>`;
+  }
+
+  const isLast = state.step === QUIZ_STEPS.length - 1;
+  const canNext = canProceed();
+
+  $('quizContent').innerHTML = `
+    <div class="quiz-header">
+      <div>
+        <p class="quiz-step-label">Step ${state.step + 1} of ${QUIZ_STEPS.length}${s.hint ? ` — ${s.hint}` : ''}</p>
+        <h2 class="quiz-question">${s.question}</h2>
+      </div>
+      <button class="quiz-skip" onclick="skipStep()">Skip →</button>
+    </div>
+    <div class="quiz-body">${bodyHTML}</div>
+    <div class="quiz-nav">
+      <div class="quiz-dots">${renderDots()}</div>
+      <div class="quiz-btn-row">
+        ${state.step > 0 ? `<button class="btn-back" onclick="prevStep()">← Back</button>` : ''}
+        ${isLast
+          ? `<button class="btn-analyze" id="analyzeBtn" onclick="runAnalysis()" ${canNext?'':'disabled'}>
+               ✦ Find My Books
+             </button>`
+          : `<button class="btn-next" id="nextBtn" onclick="nextStep()" ${canNext?'':'disabled'}>
+               Continue <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m9 18 6-6-6-6"/></svg>
+             </button>`
+        }
+      </div>
+    </div>`;
+  updateProgress();
+}
+
+function canProceed() {
+  const s = QUIZ_STEPS[state.step];
+  const ans = state.answers[s.id];
+  if (s.type === 'slider') return true;
+  if (s.type === 'pace') return !!ans;
+  if (s.type === 'multi' || s.type === 'single') return ans && (Array.isArray(ans) ? ans.length > 0 : true);
+  return false;
+}
+
+/* ── Option handlers ───────────────────────────────── */
+window.handleOption = function(el, stepId, value, single, max) {
+  const step = QUIZ_STEPS.find(s => s.id === stepId);
+  if (single) {
+    state.answers[stepId] = value;
+    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  } else {
+    let arr = state.answers[stepId] ? [...state.answers[stepId]] : [];
+    if (arr.includes(value)) {
+      arr = arr.filter(v => v !== value);
+      el.classList.remove('selected');
+    } else {
+      if (arr.length >= max) {
+        showToast(`Maximum ${max} selections allowed`);
+        return;
+      }
+      arr.push(value);
+      el.classList.add('selected');
+    }
+    state.answers[stepId] = arr;
+  }
+  const btn = $('nextBtn') || $('analyzeBtn');
+  if (btn) btn.disabled = !canProceed();
+};
+
+window.handleSlider = function(val) {
+  const s = QUIZ_STEPS[state.step];
+  state.answers[s.id] = +val;
+  $('moodValue').textContent = s.moods[+val];
+  const pct = (+val / 4) * 100;
+  $('moodSlider').style.background =
+    `linear-gradient(to right, var(--accent) 0%, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+};
+
+window.handlePace = function(el, value) {
+  state.answers[QUIZ_STEPS[state.step].id] = value;
+  document.querySelectorAll('.pace-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const btn = $('nextBtn') || $('analyzeBtn');
+  if (btn) btn.disabled = false;
+};
+
+window.nextStep = function() {
+  if (state.step < QUIZ_STEPS.length - 1) { state.step++; renderStep(); }
+};
+window.prevStep = function() {
+  if (state.step > 0) { state.step--; renderStep(); }
+};
+window.skipStep = function() {
+  if (state.step < QUIZ_STEPS.length - 1) { state.step++; renderStep(); }
+  else runAnalysis();
+};
+
+/* ═══════════════════════════════════════════════════════
+   ANALYSIS ENGINE
+═══════════════════════════════════════════════════════ */
+window.runAnalysis = function() {
+  $('quizContent').style.display = 'none';
+  $('analyzingOverlay').classList.add('active');
+
+  const steps = [
+    '📖 Reading your purchase history…',
+    '🧠 Mapping your taste profile…',
+    '🔍 Scanning 48,000+ titles…',
+    '✦ Curating your personal library…',
+    '✅ Recommendations ready!',
+  ];
+
+  const container = $('analyzeSteps');
+  container.innerHTML = '';
+
+  steps.forEach((txt, i) => {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'analyze-step';
+      el.style.animationDelay = '0s';
+      el.innerHTML = `<span class="step-icon">${txt.split(' ')[0]}</span><span>${txt.split(' ').slice(1).join(' ')}</span>`;
+      container.appendChild(el);
+      if (i === steps.length - 1) {
+        el.classList.add('done');
+        setTimeout(showResults, 700);
+      }
+    }, i * 550);
+  });
+};
+
+/* ── Scoring algorithm ─────────────────────────────── */
+function scoreBook(book) {
+  let score = 0;
+
+  // From purchase history
+  const historyGenres = PURCHASE_HISTORY.map(b => b.genre);
+  if (historyGenres.includes(book.genre)) score += 30;
+
+  // Genre match from quiz
+  const genres = state.answers.genres || [];
+  if (genres.includes(book.genre)) score += 35;
+  if (book.genre === 'nonfiction' && genres.includes('nonfiction')) score += 10;
+
+  // Mood match
+  const mood = state.answers.mood ?? 2;
+  const deepBooks = ['scifi','nonfiction','memoir'];
+  const lightBooks = ['fiction','selfhelp'];
+  if (mood >= 3 && deepBooks.includes(book.genre)) score += 20;
+  if (mood <= 1 && lightBooks.includes(book.genre)) score += 20;
+  if (mood === 2) score += 10; // balanced
+
+  // Theme match
+  const themes = state.answers.themes || [];
+  book.tags.forEach(t => { if (themes.includes(t)) score += 15; });
+
+  // Pace match
+  const pace = state.answers.pace;
+  if (pace === 'fast' && book.pages < 350) score += 15;
+  if (pace === 'slow' && book.pages >= 400) score += 15;
+  if (pace === 'short' && book.pages < 260) score += 20;
+  if (pace === 'medium') score += 8;
+
+  // Time match
+  const time = state.answers.time;
+  if (time === '15min' && book.pages < 300) score += 10;
+  if (time === 'binge' && book.pages >= 400) score += 10;
+
+  // Already purchased — lower score
+  const purchasedIds = PURCHASE_HISTORY.map(b => b.id);
+  if (purchasedIds.includes(book.id)) score -= 100;
+
+  // Base quality bonus
+  score += book.rating * 4;
+
+  return Math.min(99, Math.max(0, score));
+}
+
+function getTastePersona() {
+  const genres = state.answers.genres || [];
+  const mood = state.answers.mood ?? 2;
+  const themes = state.answers.themes || [];
+
+  if (genres.includes('scifi') && genres.includes('nonfiction')) return { name:'The Curious Explorer', desc:'You live at the intersection of fact and imagination.' };
+  if (genres.includes('selfhelp') && mood <= 2) return { name:'The Growth Seeker', desc:'You read to build the best version of yourself.' };
+  if (genres.includes('fiction') && mood >= 3) return { name:'The Deep Feeler', desc:'You want literature that moves you to your core.' };
+  if (genres.includes('thriller')) return { name:'The Thrill Chaser', desc:'You need stories that keep you up past midnight.' };
+  if (themes.includes('philosophy')) return { name:'The Philosopher', desc:'Big questions are your favourite kind.' };
+  if (mood >= 4) return { name:'The Intense Reader', desc:'You read to be changed, not just entertained.' };
+  return { name:'The Eclectic Bibliophile', desc:'Your reading life knows no boundaries.' };
+}
+
+function showResults() {
+  $('analyzingOverlay').classList.remove('active');
+  $('quizSection').style.display = 'none';
+  $('recoSection').classList.remove('hidden');
+
+  // Score all books
+  const scored = ALL_BOOKS
+    .map(b => ({ ...b, score: scoreBook(b) }))
+    .filter(b => b.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  const top = scored.slice(0, 12);
+  const persona = getTastePersona();
+  const avgScore = Math.round(top.slice(0,5).reduce((s,b) => s+b.score,0)/5);
+
+  // Taste profile
+  const genreLabels = { fiction:'Fiction',scifi:'Sci-Fi',nonfiction:'Non-Fiction',selfhelp:'Self-Help',thriller:'Thriller',memoir:'Memoir' };
+  const selectedGenres = (state.answers.genres || []).map(g => genreLabels[g] || g);
+  const moodLabel = ['Light & Fun','Feel-good','Balanced','Thought-provoking','Dark & Intense'][state.answers.mood??2];
+  const themeLabels = { identity:'Identity',adventure:'Adventure',love:'Romance',philosophy:'Philosophy',technology:'Sci & Tech',history:'History' };
+  const selectedThemes = (state.answers.themes || []).map(t => themeLabels[t] || t);
+
+  $('tasteProfile').innerHTML = `
+    <div>
+      <p class="taste-label">Your Reader Persona</p>
+      <p class="taste-title">${persona.name}</p>
+      <p style="font-size:.88rem;color:#9a9088;margin-bottom:14px;">${persona.desc}</p>
+      <div class="taste-tags">
+        ${selectedGenres.map(g => `<span class="taste-tag">📚 ${g}</span>`).join('')}
+        <span class="taste-tag">🎭 ${moodLabel}</span>
+        ${selectedThemes.map(t => `<span class="taste-tag">${t}</span>`).join('')}
+        ${state.answers.pace ? `<span class="taste-tag">⏱ ${state.answers.pace}</span>` : ''}
+      </div>
+    </div>
+    <div class="taste-score">
+      <div class="score-num">${avgScore}</div>
+      <div class="score-label">Match Score</div>
+    </div>`;
+
+  // Tabs
+  const TAB_DEFS = [
+    { id:'top',       label:'✦ Top Picks',      books: top.slice(0, 6)  },
+    { id:'genrematch',label:'Genre Match',       books: top.filter(b => (state.answers.genres||[]).includes(b.genre)).slice(0,6) },
+    { id:'surprise',  label:'Surprise Me',       books: [...top].sort(() => Math.random()-.5).slice(0,6) },
+    { id:'quick',     label:'Quick Reads',       books: top.filter(b => b.pages < 300).slice(0,6) },
+  ];
+
+  $('recoTabs').innerHTML = TAB_DEFS.map((t,i) => `
+    <button class="reco-tab ${i===0?'active':''}" data-tab="${t.id}" onclick="switchRecoTab('${t.id}',this)">${t.label}</button>`
+  ).join('');
+
+  $('recoTabContents').innerHTML = TAB_DEFS.map((tab, tabIdx) => {
+    const books = tab.books.length ? tab.books : top.slice(0, 6);
+    const [featured, ...rest] = books;
+
+    return `<div class="reco-tab-content ${tabIdx===0?'active':''}" id="reco-tab-${tab.id}">
+      ${featured ? featuredHTML(featured, tabIdx) : ''}
+      <div class="reco-grid" style="margin-top:${featured?'0':'0'}">
+        ${rest.slice(0, 5).map((b, i) => recoCardHTML(b, i)).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function featuredHTML(b, tabIdx) {
+  const whyChips = buildWhyChips(b);
+  return `
+    <div class="featured-reco">
+      <div class="featured-cover">
+        <img src="${b.cover}" alt="${b.title}" loading="lazy"
+             onerror="this.style.display='none';this.parentNode.textContent='${b.emoji}'" />
+      </div>
+      <div class="featured-body">
+        <div class="match-pill">⚡ ${b.score}% match</div>
+        <p class="featured-genre">${b.genre}</p>
+        <h3 class="featured-title">${b.title}</h3>
+        <p class="featured-author">by ${b.author}</p>
+        <p class="featured-why">Recommended because you enjoy ${buildWhyText(b)}.</p>
+        <div style="margin-bottom:16px;">${whyChips}</div>
+        <div class="featured-meta">
+          <div class="meta-item"><span>⭐</span><span>${b.rating} (${starsStr(b.rating)})</span></div>
+          <div class="meta-item"><span>📄</span><span>${b.pages} pages</span></div>
+          <div class="meta-item"><span>📅</span><span>${b.year}</span></div>
+        </div>
+        <div class="reco-actions">
+          <button class="btn-add-cart" onclick="addToCart('${b.title.replace(/'/g,"\\'")}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            Add to Cart · ₹${b.price}
+          </button>
+          <button class="btn-save ${state.saved.has(b.id)?'saved':''}" id="save-${b.id}" onclick="toggleSave(${b.id}, this)">
+            ${state.saved.has(b.id) ? '❤️ Saved' : '🤍 Save'}
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function recoCardHTML(b, i) {
+  return `
+    <div class="reco-card" style="animation-delay:${i*.06}s">
+      <div class="reco-card-img">
+        <img src="${b.cover}" alt="${b.title}" loading="lazy"
+             onerror="this.style.display='none';this.parentNode.textContent='${b.emoji}'" />
+        <span class="reco-match">${b.score}% match</span>
+      </div>
+      <div class="reco-card-body">
+        <p class="reco-card-genre">${b.genre}</p>
+        <h4 class="reco-card-title">${b.title}</h4>
+        <p class="reco-card-author">${b.author}</p>
+        <div class="reco-card-foot">
+          <div class="reco-price">₹${b.price}${b.oldPrice?`<span class="old">₹${b.oldPrice}</span>`:''}</div>
+          <button class="add-btn" onclick="addToCart('${b.title.replace(/'/g,"\\'")}')" title="Add to cart">+</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildWhyText(b) {
+  const genres = state.answers.genres || [];
+  const history = PURCHASE_HISTORY.map(h => h.genre);
+  if (genres.includes(b.genre)) return `${b.genre} stories`;
+  if (history.includes(b.genre)) return `books similar to your past purchases`;
+  return `highly-rated books in your areas of interest`;
+}
+
+function buildWhyChips(b) {
+  const chips = [];
+  const historyGenres = PURCHASE_HISTORY.map(h => h.genre);
+  const quizGenres = state.answers.genres || [];
+  if (quizGenres.includes(b.genre)) chips.push('Matches your genre picks');
+  if (historyGenres.includes(b.genre)) chips.push('Similar to past purchases');
+  if (b.rating >= 4.7) chips.push(`Top rated ${b.rating}★`);
+  if ((state.answers.themes||[]).some(t => b.tags.includes(t))) chips.push('Matches your themes');
+  if (b.pages < 280 && state.answers.time === '15min') chips.push('Quick read');
+  return chips.slice(0,3).map(c => `<span class="why-chip">✓ ${c}</span>`).join('');
+}
+
+window.switchRecoTab = function(id, btn) {
+  document.querySelectorAll('.reco-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.reco-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  $('reco-tab-' + id).classList.add('active');
+};
+
+window.toggleSave = function(id, btn) {
+  if (state.saved.has(id)) {
+    state.saved.delete(id);
+    btn.classList.remove('saved');
+    btn.innerHTML = '🤍 Save';
+    showToast('Removed from saved list');
+  } else {
+    state.saved.add(id);
+    btn.classList.add('saved');
+    btn.innerHTML = '❤️ Saved';
+    btn.style.transform = 'scale(1.2)';
+    setTimeout(() => btn.style.transform = '', 300);
+    showToast('❤️ Added to your reading list!');
+  }
+};
+
+/* Retake */
+$('retakeBtn').addEventListener('click', () => {
+  state.step = 0;
+  state.answers = {};
+  $('recoSection').classList.add('hidden');
+  $('quizSection').style.display = '';
+  $('quizContent').style.display = '';
+  renderStep();
+  $('quizSection').scrollIntoView({ behavior:'smooth', block:'start' });
+});
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
+renderHistory();
+renderStep();
+  </script>
+</body>
+</html>
