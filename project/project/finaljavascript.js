@@ -3,7 +3,19 @@
    Book-only data: real Open Library cover images,
    book-focused social posts, chat about books.
 ═══════════════════════════════════════════════════════════ */
-
+document.getElementById('alsoLike').innerHTML = similar.map(b => `
+  <a href="product.html?title=${encodeURIComponent(b.title)}&price=${b.price.replace('₹','')}&img=${b.cover}">
+    <div class="mini-card">
+      <div class="mini-card-img">
+        <img src="${b.cover}" />
+      </div>
+      <div class="mini-card-body">
+        <div class="mini-card-title">${b.title}</div>
+        <div class="mini-card-price">${b.price}</div>
+      </div>
+    </div>
+  </a>
+`).join('');
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
